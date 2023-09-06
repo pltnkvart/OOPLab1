@@ -18,7 +18,7 @@ namespace myMatrix{
         Element *head;
         Element *tail;
     };
-
+	
     int getInt();
     Matrix input();
     Matrix countElements(const Matrix &matrix);

@@ -1,14 +1,24 @@
 #include <iostream>
+#include <limits>
 #include "func.h"
 
-namespace myMatrix{
+namespace myMatrix {
     int getInt() {
-        int a;
-        std::cin >> a;
-        if (!std::cin.good()) {
-            throw std::runtime_error("Failed to read number");
-        }
-        return a;
+    	int a = 0;
+		while (true) {
+			std::cin >> a;
+			if (std::cin.eof())
+				throw std::runtime_error("Failed to read number: EOF");
+			else if (std::cin.bad()) {
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cout << "You are wrong; repeat please!" << std::endl;
+				getInt();
+			}
+			else{
+				return a;
+			}
+		}
     }
 
     void push_back(Matrix &matrix, int value, int i, int j) {
@@ -108,7 +118,6 @@ namespace myMatrix{
                 }
             }
         } catch (...) {
-            std::cerr << "Error" << std::endl;
             erase(matrix);
             throw;
         }
