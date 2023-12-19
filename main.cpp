@@ -16,6 +16,7 @@ int main() {
         erase(matrix);
         erase(newMatrix);
     } catch(...) {
+        std::cout << "Error" << std::endl;
         return 1;
     }
     return 0;

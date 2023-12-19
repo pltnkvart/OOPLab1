@@ -4,21 +4,23 @@
 
 namespace myMatrix {
     int getInt() {
-    	int a = 0;
-		while (true) {
-			std::cin >> a;
-			if (std::cin.eof())
-				throw std::runtime_error("Failed to read number: EOF");
-			else if (std::cin.bad()) {
-				std::cin.clear();
-				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cout << "You are wrong; repeat please!" << std::endl;
-				getInt();
-			}
-			else{
-				return a;
-			}
-		}
+        int a = 0;
+        while (true) {
+            std::cin >> a;
+            if (std::cin.eof())
+                throw std::runtime_error("Failed to read number: EOF");
+            if (std::cin.bad()) { // обнаружена невосстановимая ошибка входного потока
+                throw std::runtime_error(std::string("Failed to read number: ") + strerror(errno));
+            }
+            // прочие ошибки (неправильный формат ввода) либо число не входит в заданный диапазон
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "You are wrong; repeat please!" << std::endl;
+            } else {
+                return a;
+            }
+        }
     }
 
     void push_back(Matrix &matrix, int value, int i, int j) {
